@@ -23,7 +23,7 @@ func (c *AuthController) Login(ctx *gin.Context) {
 	}
 	token, err := common.User.Login(requestParams)
 	if err != nil {
-		response.BadRequestException(ctx, "")
+		response.BadRequestException(ctx, err.Error())
 		return
 	}
 	response.SuccessJson(ctx, "", token)
