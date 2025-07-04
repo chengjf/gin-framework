@@ -11,9 +11,9 @@ import (
 
 type PageBuilder struct {
 	DB       *gorm.DB
-	Model    interface{} // model struct
-	Preloads []string    // 预加载
-	Fields   []string    // 查询字段
+	Model    any      // model struct
+	Preloads []string // 预加载
+	Fields   []string // 查询字段
 }
 
 type OnJoins struct {
@@ -25,17 +25,17 @@ type JoinTableField struct {
 }
 
 type SelectTableField struct {
-	Model interface{}
+	Model any
 	Table string
 	Field []string
 }
 
 type Page struct {
-	List        interface{} `json:"list"`         // 查询的列表
-	CurrentPage int         `json:"current_page"` // 当前页
-	Total       int64       `json:"total"`        // 查询记录总数
-	LastPage    int         `json:"last_page"`    // 最后一页
-	PerPage     int         `json:"per_page"`     // 每页条数
+	List        any   `json:"list"`         // 查询的列表
+	CurrentPage int   `json:"current_page"` // 当前页
+	Total       int64 `json:"total"`        // 查询记录总数
+	LastPage    int   `json:"last_page"`    // 最后一页
+	PerPage     int   `json:"per_page"`     // 每页条数
 }
 
 func NewBuilder() *PageBuilder {
@@ -62,7 +62,7 @@ func (pb *PageBuilder) WithField(fields []string) *PageBuilder {
 }
 
 // WithFields 单多表字段查询字段（或过滤某些字段不查询 最后一个参数默认为select（不传或者传），如传omit为过滤前面传输的字段）
-func (pb *PageBuilder) WithFields(model interface{}, table string, fields []string) *PageBuilder {
+func (pb *PageBuilder) WithFields(model any, table string, fields []string) *PageBuilder {
 	fieldList := filterFields(model, fields)
 	for i, _field := range fieldList {
 		fieldList[i] = table + "." + _field
@@ -73,7 +73,7 @@ func (pb *PageBuilder) WithFields(model interface{}, table string, fields []stri
 }
 
 // filterFields 过滤查询字段
-func filterFields(model interface{}, fields []string) []string {
+func filterFields(model any, fields []string) []string {
 	var fieldList []string
 	if len(fields) == 1 {
 		if fields[0] != "_omit" && fields[0] != "_select" {
@@ -84,7 +84,7 @@ func filterFields(model interface{}, fields []string) []string {
 		case "_omit":
 			fields = fields[:len(fields)-1]
 			_fields, _ := util.GetStructColumnName(model, 1)
-			fieldList, _ = lo.Difference[string](_fields, fields)
+			fieldList, _ = lo.Difference(_fields, fields)
 		case "_select":
 			fieldList = fields[:len(fields)-1]
 		default:
@@ -146,7 +146,7 @@ func (pb *PageBuilder) WithCondition(query interface{}, args ...interface{}) *Pa
 }
 
 // Pagination 分页查询
-func (pb *PageBuilder) Pagination(dst interface{}, currentPage, pageSize int) (Page, error) {
+func (pb *PageBuilder) Pagination(dst any, currentPage, pageSize int) (Page, error) {
 	query := pb.DB
 	page := pb.ParsePage(currentPage, pageSize)
 	offset := (page.CurrentPage - 1) * page.PerPage

@@ -7,6 +7,7 @@ import (
 
 type BaseUser models.GinUser
 type GinUserInfo models.GinUserRole
+type GinUserProfile models.GinUserProfile
 
 type User struct {
 	BaseUser
@@ -21,7 +22,7 @@ type IndexRequest struct {
 // UserList joins获取关联列表
 type UserList struct {
 	BaseUser
-	GinUserInfo `gorm:"foreignKey:user_id" json:"user_info"`
+	Phone string `json:"phone"`
 }
 
 type GinRole struct {

@@ -10,7 +10,7 @@ import (
 // convertToIntIP 转换ip为int
 func convertToIntIP(ip string) (int, error) {
 	ips := strings.Split(ip, ".")
-	E := errors.New("Not A IP.")
+	E := errors.New("not an IP")
 	if len(ips) != 4 {
 		return 0, E
 	}

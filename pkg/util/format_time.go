@@ -48,7 +48,7 @@ func (t FormatTime) Value() (driver.Value, error) {
 }
 
 // 检出 mysql 时调用
-func (t *FormatTime) Scan(v interface{}) error {
+func (t *FormatTime) Scan(v any) error {
 	// mysql 内部日期的格式可能是 2006-01-02 15:04:05 +0800 CST 格式，所以检出的时候还需要进行一次格式化
 	tTime, _ := time.Parse("2006-01-02 15:04:05 +0800 CST", v.(time.Time).String())
 	*t = FormatTime(tTime)

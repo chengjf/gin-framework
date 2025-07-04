@@ -17,11 +17,11 @@ type UserService struct{}
 var User = &UserService{}
 
 // GetIndex 获取列表
-func (s *UserService) GetIndex(requestParams user.IndexRequest) (interface{}, error) {
+func (s *UserService) GetIndex(requestParams user.IndexRequest) (any, error) {
 	var userList = make([]user.UserList, 0)
 	multiFields := []paginator.SelectTableField{
 		{Model: models.GinUser{}, Table: models.GinUserTbName, Field: []string{"password", "salt", "_omit"}},
-		{Model: models.GinUserRole{}, Table: models.GinUserRoleTbName, Field: []string{"id", "user_id", "role_ids"}},
+		{Model: models.GinUserProfile{}, Table: models.GinUserProfileTbName, Field: []string{"phone"}},
 	}
 	pagination, err := paginator.NewBuilder().
 		WithDB(global.DB).
@@ -31,7 +31,7 @@ func (s *UserService) GetIndex(requestParams user.IndexRequest) (interface{}, er
 		WithMultiFields(multiFields).
 		WithJoins("left", []paginator.OnJoins{{
 			LeftTableField:  paginator.JoinTableField{Table: models.GinUserTbName, Field: "id"},
-			RightTableField: paginator.JoinTableField{Table: models.GinUserRoleTbName, Field: "user_id"},
+			RightTableField: paginator.JoinTableField{Table: models.GinUserProfileTbName, Field: "user_id"},
 		}}).
 		Pagination(&userList, requestParams.Page, global.Cfg.Server.DefaultPageSize)
 	return pagination, err

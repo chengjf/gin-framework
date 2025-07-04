@@ -36,7 +36,7 @@ func GenerateBaseSnowId(num int, n *snowflake.Node) string {
 		if err != nil {
 			return ""
 		}
-		node, err := snowflake.NewNode(int64(localIp) % 1023)
+		node, _ := snowflake.NewNode(int64(localIp) % 1023)
 		n = node
 	}
 	id := n.Generate()
@@ -83,17 +83,21 @@ func VerifyPassword(hashedPassword, inputPassword string) bool {
 // FormatToString 格式化转化成string
 func FormatToString(originStr interface{}) string {
 	str := ""
-	switch originStr.(type) {
+	switch v := originStr.(type) {
 	case float64:
-		str = strconv.FormatFloat(originStr.(float64), 'f', 10, 64)
+		str = strconv.FormatFloat(v, 'f', 10, 64)
 	case float32:
-		str = strconv.FormatFloat(originStr.(float64), 'f', 10, 32)
+		str = strconv.FormatFloat(float64(v), 'f', 10, 32)
 	case nil:
 		str = ""
-	case int, int32, int64:
-		str = strconv.FormatInt(originStr.(int64), 10)
+	case int:
+		str = strconv.FormatInt(int64(v), 10)
+	case int32:
+		str = strconv.FormatInt(int64(v), 10)
+	case int64:
+		str = strconv.FormatInt(v, 10)
 	default:
-		str = originStr.(string)
+		str = fmt.Sprintf("%v", v)
 	}
 	return str
 }
@@ -102,10 +106,7 @@ func FormatToString(originStr interface{}) string {
 func IsPathExist(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
-		if os.IsExist(err) {
-			return true
-		}
-		return false
+		return os.IsExist(err)
 	}
 	return true
 }
@@ -186,26 +187,48 @@ func String2Int(strArr []string) []int {
 }
 
 // GetStructColumnName 获取结构体中的字段名称 _type: 1: 获取tag字段值 2：获取结构体字段值
-func GetStructColumnName(s interface{}, _type int) ([]string, error) {
+func GetStructColumnName(s any, _type int) ([]string, error) {
 	v := reflect.ValueOf(s)
-	if v.Kind() != reflect.Struct {
-		return []string{}, fmt.Errorf("interface is not a struct")
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
 	}
-	t := v.Type()
+	if v.Kind() != reflect.Struct {
+		return nil, fmt.Errorf("input is not a struct")
+	}
+
 	var fields []string
-	for i := 0; i < v.NumField(); i++ {
-		var field string
+	t := v.Type()
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+
+		// 处理匿名字段（嵌套结构体）
+		if field.Anonymous {
+			// 递归获取嵌套结构体的字段
+			embeddedFields, err := GetStructColumnName(v.Field(i).Interface(), _type)
+			if err != nil {
+				return nil, err
+			}
+			fields = append(fields, embeddedFields...)
+			continue
+		}
+
+		var fieldName string
 		if _type == 1 {
-			field = t.Field(i).Tag.Get("json")
-			if field == "" {
-				tagSetting := schema.ParseTagSetting(t.Field(i).Tag.Get("gorm"), ";")
-				field = tagSetting["COLUMN"]
+			fieldName = field.Tag.Get("json")
+			if fieldName == "" {
+				tagSetting := schema.ParseTagSetting(field.Tag.Get("gorm"), ";")
+				fieldName = tagSetting["COLUMN"]
 			}
 		} else {
-			field = t.Field(i).Name
+			fieldName = field.Name
 		}
-		fields = append(fields, field)
+
+		if fieldName != "" {
+			fields = append(fields, fieldName)
+		}
 	}
+
 	return fields, nil
 }
 
