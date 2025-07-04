@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/MQEnergy/gin-framework/config"
-	"github.com/gin-gonic/gin"
+	"gin-framework/config"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // IpAuth 白名单验证

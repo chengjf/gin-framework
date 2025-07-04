@@ -4,15 +4,17 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/pkg/auth"
-	"github.com/MQEnergy/gin-framework/types/admin"
-	"github.com/gin-gonic/gin"
 	"strconv"
+
+	"gin-framework/global"
+	"gin-framework/pkg/auth"
+	"gin-framework/types/user"
+
+	"github.com/gin-gonic/gin"
 )
 
-type AdminInfo struct {
-	admin.Admin
+type UserInfo struct {
+	user.User
 }
 
 type TokenPayload struct {
@@ -47,21 +49,21 @@ func ParseUserByToken(token string) (TokenPayload, error) {
 }
 
 // GetAdminInfo 获取登陆者的用户信息
-func GetAdminInfo(ctx *gin.Context) (AdminInfo, error) {
+func GetAdminInfo(ctx *gin.Context) (UserInfo, error) {
 	info, err := ParseUserByToken(ctx.GetHeader(global.Cfg.Jwt.TokenKey))
 	if err != nil {
-		return AdminInfo{}, nil
+		return UserInfo{}, nil
 	}
 	Uid := info.UserId
 	//	从redis查询
 	result, err := global.Redis.Get(context.Background(), global.Cfg.Redis.LoginPrefix+strconv.FormatInt(Uid, 10)).Result()
 	if err != nil {
-		return AdminInfo{}, nil
+		return UserInfo{}, nil
 	}
-	var user admin.Admin
+	var user user.User
 	err = json.Unmarshal([]byte(result), &user)
 	if err != nil {
-		return AdminInfo{}, nil
+		return UserInfo{}, nil
 	}
-	return AdminInfo{user}, nil
+	return UserInfo{user}, nil
 }

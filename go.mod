@@ -1,9 +1,8 @@
-module github.com/MQEnergy/gin-framework
+module gin-framework
 
 go 1.18
 
 require (
-	github.com/MQEnergy/go-rabbitmq v0.1.0
 	github.com/MQEnergy/gorm-model v1.1.7
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/casbin/casbin/v2 v2.57.0
@@ -27,6 +26,7 @@ require (
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.14.0
 	github.com/urfave/cli/v2 v2.23.5
+	golang.org/x/crypto v0.1.0
 	gorm.io/driver/mysql v1.4.3
 	gorm.io/gorm v1.24.1
 )
@@ -75,14 +75,12 @@ require (
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/streadway/amqp v1.0.0 // indirect
 	github.com/subosito/gotenv v1.4.1 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	go.opentelemetry.io/otel v1.11.1 // indirect
 	go.opentelemetry.io/otel/trace v1.11.1 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/exp v0.0.0-20221108223516-5d533826c662 // indirect
 	golang.org/x/net v0.2.0 // indirect
 	golang.org/x/sys v0.2.0 // indirect

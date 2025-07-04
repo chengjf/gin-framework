@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/gin-contrib/requestid"
-	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
+	"gin-framework/global"
 	"io/ioutil"
 	"strings"
 	"time"
+
+	"github.com/gin-contrib/requestid"
+	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 type CustomResponseWriter struct {

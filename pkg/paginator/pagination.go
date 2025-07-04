@@ -1,11 +1,12 @@
 package paginator
 
 import (
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/pkg/util"
+	"gin-framework/global"
+	"gin-framework/pkg/util"
+	"math"
+
 	"github.com/samber/lo"
 	"gorm.io/gorm"
-	"math"
 )
 
 type PageBuilder struct {

@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"github.com/MQEnergy/gin-framework/app/controller/backend"
+	"gin-framework/app/controller/backend"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +14,8 @@ func InitBackendGroup(r *gin.RouterGroup) gin.IRoutes {
 		backendGroup.GET("/user/view", backend.User.View)
 		backendGroup.POST("/user/update", backend.User.Update)
 		backendGroup.POST("/user/delete", backend.User.Delete)
+		backendGroup.GET("/user/index", backend.User.Index)
+		backendGroup.GET("/user/list", backend.User.List)
 	}
 	return backendGroup
 }

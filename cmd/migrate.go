@@ -3,16 +3,17 @@ package cmd
 import (
 	"database/sql"
 	"fmt"
-	"github.com/MQEnergy/gin-framework/bootstrap"
-	"github.com/MQEnergy/gin-framework/config"
-	"github.com/MQEnergy/gin-framework/global"
+	"gin-framework/bootstrap"
+	"gin-framework/config"
+	"gin-framework/global"
+	"strconv"
+	"time"
+
 	"github.com/go-sql-driver/mysql"
 	"github.com/golang-migrate/migrate/v4"
 	dmysql "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/urfave/cli/v2"
-	"strconv"
-	"time"
 )
 
 var (

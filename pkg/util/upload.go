@@ -3,7 +3,7 @@ package util
 import (
 	"errors"
 	"fmt"
-	"github.com/MQEnergy/gin-framework/global"
+	"gin-framework/global"
 	"mime/multipart"
 	"strconv"
 	"strings"
@@ -62,7 +62,7 @@ func (u *Upload) UploadFile(file *multipart.FileHeader, path string) (*FileHeade
 	if int64(u.MaxUploadSize) < file.Size {
 		return nil, errors.New("超过最大上传大小 不能超过" + strconv.Itoa(u.MaxUploadSize/(1000*1000)) + "M")
 	}
-	if !InAnySlice[string](u.AllowTypes, fileType) {
+	if !InAnySlice(u.AllowTypes, fileType) {
 		return nil, errors.New("上传文件格式错误 支持格式" + strings.Join(u.AllowTypes, ","))
 	}
 	// 创建时间目录

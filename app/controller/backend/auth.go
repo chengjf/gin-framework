@@ -1,10 +1,14 @@
 package backend
 
 import (
-	"github.com/MQEnergy/gin-framework/app/controller/base"
-	"github.com/MQEnergy/gin-framework/app/service/common"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	"github.com/MQEnergy/gin-framework/types/user"
+	"gin-framework/app/controller/base"
+
+	"gin-framework/app/service/common"
+
+	"gin-framework/pkg/response"
+
+	"gin-framework/types/user"
+
 	"github.com/gin-gonic/gin"
 )
 

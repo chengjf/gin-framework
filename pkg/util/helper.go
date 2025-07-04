@@ -1,15 +1,7 @@
 package util
 
 import (
-	"crypto/md5"
-	"crypto/sha256"
 	"fmt"
-	"github.com/bwmarrin/snowflake"
-	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/gogf/gf/v2/util/gconv"
-	"github.com/hashicorp/go-uuid"
-	"gorm.io/gorm/schema"
-	"io"
 	"io/ioutil"
 	"mime/multipart"
 	"os"
@@ -18,6 +10,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/bwmarrin/snowflake"
+	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/gconv"
+	"github.com/hashicorp/go-uuid"
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm/schema"
 )
 
 // InAnySlice 判断某个字符串是否在字符串切片中
@@ -67,14 +66,18 @@ func GenerateUuid(size int) string {
 }
 
 // GeneratePasswordHash 生成密码hash值
-func GeneratePasswordHash(password string, salt string) string {
-	md5 := md5.New()
-	io.WriteString(md5, password)
-	str := fmt.Sprintf("%x", md5.Sum(nil))
-	s := sha256.New()
-	io.WriteString(s, password+salt)
-	str = fmt.Sprintf("%x", s.Sum(nil))
-	return str
+func GeneratePasswordHash(password string) (string, error) {
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedBytes), nil
+}
+
+// VerifyPassword 验证密码
+func VerifyPassword(hashedPassword, inputPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(inputPassword))
+	return err == nil
 }
 
 // FormatToString 格式化转化成string

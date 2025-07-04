@@ -3,11 +3,12 @@ package lib
 import (
 	"database/sql"
 	"fmt"
+	"time"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-	"time"
 )
 
 type DatabaseConfig struct {
@@ -24,14 +25,14 @@ type DatabaseConfig struct {
 }
 
 // NewMysql 数据库连接
-func NewMysql(config DatabaseConfig) (*gorm.DB, error) {
+func NewMysql(config DatabaseConfig, logger *Logger) (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.User, config.Pass, config.Host, config.Port, config.DbName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   config.Prefix,
 			SingularTable: true, // 是否设置单数表名，设置为 是
 		},
-		Logger: logger.Default.LogMode(config.LogLevel),
+		Logger: &LogrusLogger{logger},
 	})
 	if err != nil {
 		return nil, fmt.Errorf("Unable to connect to the database, please check the MySQL configuration information first,the error details are:" + err.Error())

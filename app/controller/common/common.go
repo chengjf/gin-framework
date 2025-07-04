@@ -1,10 +1,14 @@
 package common
 
 import (
-	"github.com/MQEnergy/gin-framework/app/controller/base"
-	"github.com/MQEnergy/gin-framework/app/service/common"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	common2 "github.com/MQEnergy/gin-framework/types/common"
+	"gin-framework/app/controller/base"
+
+	"gin-framework/app/service/common"
+
+	"gin-framework/pkg/response"
+
+	common2 "gin-framework/types/common"
+
 	"github.com/gin-gonic/gin"
 )
 

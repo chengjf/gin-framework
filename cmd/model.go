@@ -2,10 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/MQEnergy/gin-framework/bootstrap"
-	"github.com/MQEnergy/gin-framework/config"
-	"github.com/MQEnergy/gin-framework/global"
+	"gin-framework/bootstrap"
+	"gin-framework/config"
+	"gin-framework/global"
+
 	gomodel "github.com/MQEnergy/gorm-model"
+
 	"github.com/urfave/cli/v2"
 )
 
@@ -84,18 +86,18 @@ func generateModel() error {
 		strs, errs := gomodel.GenerateAllModel(modelConfig)
 		for i, str := range strs {
 			if errs[i] != nil {
-				fmt.Println(fmt.Sprintf("\x1b[31m%s\x1b[0m", str))
+				fmt.Printf("\x1b[31m%s\x1b[0m\n", str)
 			} else {
-				fmt.Println(fmt.Sprintf("\u001B[34m%s\u001B[0m", str))
+				fmt.Printf(fmt.Sprintf("\u001B[34m%s\u001B[0m\n", str))
 			}
 		}
 	} else {
 		str, err := gomodel.GenerateSingleModel(modelConfig, tbName)
 		if err != nil {
-			fmt.Println(fmt.Sprintf("\x1b[31m%s\x1b[0m", str))
+			fmt.Printf(fmt.Sprintf("\x1b[31m%s\x1b[0m\n", str))
 			return nil
 		}
-		fmt.Println(fmt.Sprintf("\u001B[34m%s\u001B[0m", str))
+		fmt.Printf(fmt.Sprintf("\u001B[34m%s\u001B[0m\n", str))
 	}
 	return nil
 }

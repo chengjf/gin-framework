@@ -8,7 +8,7 @@ jwt:
   tokenExpire: 864000   # token过期时间
   tokenKey: 'Authorization' # token的键名
   tokenIssuer: 'gin-framework'
-  secret: '3jQSRZXeXzr09hq0GrZuL9Dgtk2XV9Ax'
+  secret: '3jQSRZXeXzr0AhqtGrZu99Dgtk2XV9Ax'
 log:
   debug: true
   fileName: 'mqenergy-go' # 日志文件名称
@@ -17,7 +17,7 @@ mysql:
   - host: '127.0.0.1'
     port: '3306'
     user: 'root'
-    password: '123456'
+    password: 'todosoft'
     dbname: 'gin_framework'
     prefix: ""
     maxIdleConns: 10 # 设置空闲连接池中连接的最大数量
@@ -27,8 +27,8 @@ mysql:
 redis:
   host: '127.0.0.1'
   port: '6379'
-  password: '123456'
-  dbNum: 0
+  password: 'todosoft'
+  dbNum: 12
   loginPrefix: 'gin_framework_login_' # 登录用户存入redis键名的前缀
 amqp:
   host: '127.0.0.1'

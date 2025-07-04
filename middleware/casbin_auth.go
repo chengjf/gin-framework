@@ -2,17 +2,19 @@ package middleware
 
 import (
 	_ "embed"
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/global/app"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	util2 "github.com/MQEnergy/gin-framework/pkg/util"
+	"strings"
+
+	"gin-framework/global"
+	"gin-framework/global/app"
+	"gin-framework/pkg/response"
+	util2 "gin-framework/pkg/util"
+
 	"github.com/casbin/casbin/v2"
 	"github.com/casbin/casbin/v2/model"
 	"github.com/casbin/casbin/v2/util"
 	gormadapter "github.com/casbin/gorm-adapter/v3"
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/v2/util/gconv"
-	"strings"
 )
 
 //go:embed rbac_model.conf

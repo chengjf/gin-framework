@@ -2,10 +2,14 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/MQEnergy/gin-framework/config"
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/pkg/lib"
-	"github.com/MQEnergy/gin-framework/pkg/util"
+	"gin-framework/config"
+
+	"gin-framework/global"
+
+	"gin-framework/pkg/lib"
+
+	"gin-framework/pkg/util"
+
 	"github.com/sirupsen/logrus"
 )
 
@@ -23,10 +27,12 @@ var (
 	BootedService []string
 	err           error
 	// serviceMap 程序启动时需要自动加载的服务
+	// 先装载logger
+
 	serviceMap = bootServiceMap{
+		LoggerService: bootLogger,
 		MysqlService:  bootMysql,
 		RedisService:  bootRedis,
-		LoggerService: bootLogger,
 	}
 )
 
@@ -69,6 +75,9 @@ func bootLogger() error {
 
 // bootMysql 装配数据库连接
 func bootMysql() error {
+	if global.Logger == nil {
+		return nil
+	}
 	if global.DB != nil {
 		return nil
 	}
@@ -83,7 +92,7 @@ func bootMysql() error {
 		MaxOpenConns: global.Cfg.Mysql[0].MaxOpenConns,
 		MaxLifeTime:  global.Cfg.Mysql[0].MaxLifeTime,
 	}
-	global.DB, err = lib.NewMysql(dbConfig)
+	global.DB, err = lib.NewMysql(dbConfig, global.Logger)
 	if err == nil {
 		logrus.Printf("程序载入MySQL服务成功")
 	}

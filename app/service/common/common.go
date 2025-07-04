@@ -1,14 +1,18 @@
 package common
 
 import (
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/models"
-	"github.com/MQEnergy/gin-framework/pkg/util"
-	"github.com/MQEnergy/gin-framework/types/common"
-	"github.com/jinzhu/copier"
-	"github.com/samber/lo"
+	"gin-framework/global"
 	"strconv"
 	"strings"
+
+	"gin-framework/models"
+
+	"gin-framework/pkg/util"
+
+	"gin-framework/types/common"
+
+	"github.com/jinzhu/copier"
+	"github.com/samber/lo"
 )
 
 type CommonService struct{}

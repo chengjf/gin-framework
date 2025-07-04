@@ -2,15 +2,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/MQEnergy/gin-framework/bootstrap"
-	"github.com/MQEnergy/gin-framework/cmd"
-	"github.com/MQEnergy/gin-framework/config"
-	"github.com/MQEnergy/gin-framework/pkg/validator"
-	"github.com/MQEnergy/gin-framework/router"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/urfave/cli/v2"
 	"os"
 	"runtime"
+
+	"gin-framework/bootstrap"
+
+	"gin-framework/cmd"
+
+	"gin-framework/config"
+
+	"gin-framework/pkg/validator"
+
+	"gin-framework/router"
+
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/urfave/cli/v2"
 )
 
 var (

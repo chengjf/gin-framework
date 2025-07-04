@@ -1,9 +1,12 @@
 package user
 
-import "github.com/MQEnergy/gin-framework/models"
+import (
+	"gin-framework/models"
+	"gin-framework/pkg/util"
+)
 
 type BaseUser models.GinUser
-type GinUserInfo models.GinUserInfo
+type GinUserInfo models.GinUserRole
 
 type User struct {
 	BaseUser
@@ -21,14 +24,30 @@ type UserList struct {
 	GinUserInfo `gorm:"foreignKey:user_id" json:"user_info"`
 }
 
+type GinRole struct {
+	Id   uint64 `json:"id"`
+	Name string `json:"name"`
+}
+
+type ListUser struct {
+	Id           uint64          `json:"id"`
+	Uuid         string          `json:"uuid"`
+	Account      string          `json:"account"`
+	Status       uint8           `json:"status"`
+	RegisterTime util.FormatTime `json:"register_time"`
+	RegisterIp   string          `json:"register_ip"`
+	LoginTime    util.FormatTime `json:"login_time"`
+	LoginIp      string          `json:"login_ip"`
+}
+
 // GinUser preload获取关联列表
 type GinUser struct {
-	BaseUser
-	UserInfo GinUserInfo `gorm:"foreignKey:user_id" json:"user_info"`
+	ListUser
+	Roles []GinRole `gorm:"many2many:gin_user_role;foreignKey:Id;joinForeignKey:UserId;references:Id;joinReferences:RoleId" json:"roles"`
 }
 
 // LoginRequest 用户登录请求参数
 type LoginRequest struct {
-	Phone    string `form:"phone" json:"phone" binding:"required"`
+	Account  string `form:"account" json:"account" binding:"required"`
 	Password string `form:"password" json:"password" binding:"required"`
 }

@@ -2,10 +2,12 @@ package base
 
 import (
 	"errors"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	"github.com/MQEnergy/gin-framework/pkg/validator"
-	"github.com/gin-gonic/gin"
+	"gin-framework/pkg/response"
 	"net/http"
+
+	"gin-framework/pkg/validator"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Controller struct{}

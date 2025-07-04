@@ -2,11 +2,13 @@ package router
 
 import (
 	"fmt"
-	"github.com/MQEnergy/gin-framework/config"
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/middleware"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	"github.com/MQEnergy/gin-framework/router/routes"
+
+	"gin-framework/config"
+	"gin-framework/global"
+	"gin-framework/middleware"
+	"gin-framework/pkg/response"
+	"gin-framework/router/routes"
+
 	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
 )
@@ -35,14 +37,12 @@ func Register() *gin.Engine {
 			middleware.IpAuth(),
 		}
 		commonGroup = r.Group("/", publicMiddleware...)
-		authGroup   = r.Group("/", append(publicMiddleware, middleware.LoginAuth(), middleware.CasbinAuth())...)
+		authGroup   = r.Group("/", append(publicMiddleware, middleware.LoginAuth())...)
 	)
 	// 公用组
 	routes.InitCommonGroup(commonGroup)
 	// 后台组
 	routes.InitBackendGroup(authGroup)
-	// 前台组
-	routes.InitFrontendGroup(authGroup)
 	// 赋给全局
 	global.Router = r
 	return r

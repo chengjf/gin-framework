@@ -1,12 +1,16 @@
 package common
 
 import (
-	"github.com/MQEnergy/gin-framework/app/controller/base"
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/pkg/auth"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	"github.com/gin-gonic/gin"
+	"gin-framework/app/controller/base"
 	"strings"
+
+	"gin-framework/global"
+
+	"gin-framework/pkg/auth"
+
+	"gin-framework/pkg/response"
+
+	"github.com/gin-gonic/gin"
 )
 
 type TokenController struct {

@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"github.com/MQEnergy/gin-framework/global"
-	"github.com/MQEnergy/gin-framework/pkg/auth"
-	"github.com/MQEnergy/gin-framework/pkg/response"
-	"github.com/gin-gonic/gin"
+	"gin-framework/global"
+	"gin-framework/pkg/auth"
+	"gin-framework/pkg/response"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 // LoginAuth 登录中间件

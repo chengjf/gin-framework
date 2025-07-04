@@ -2,11 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/MQEnergy/gin-framework/bootstrap"
-	"github.com/MQEnergy/gin-framework/pkg/util"
-	"github.com/urfave/cli/v2"
+	"gin-framework/bootstrap"
+	"gin-framework/pkg/util"
 	"os"
 	"strings"
+
+	"github.com/urfave/cli/v2"
 )
 
 var (
