@@ -20,6 +20,8 @@ var User = &UserService{}
 // GetIndex 获取列表
 func (s *UserService) GetIndex(requestParams user.IndexRequest, c *gin.Context) (any, error) {
 	global.Logger.WithContext(c).Info("GetIndex", requestParams)
+	x, _ := global.Redis.Get(c, "a").Result()
+	global.Logger.WithContext(c).Info("GetIndex", requestParams, x)
 	var userList = make([]user.UserList, 0)
 	multiFields := []paginator.SelectTableField{
 		{Model: models.GinUser{}, Table: models.GinUserTbName, Field: []string{"password", "salt", "_omit"}},

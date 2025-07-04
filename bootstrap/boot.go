@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"fmt"
 	"gin-framework/config"
+	"time"
 
 	"gin-framework/global"
 
@@ -101,6 +102,9 @@ func bootMysql() error {
 
 // bootRedis 装配redis服务
 func bootRedis() error {
+	if global.Logger == nil {
+		return nil
+	}
 	redisConfig := lib.RedisConfig{
 		Addr:     fmt.Sprintf("%s:%s", global.Cfg.Redis.Host, global.Cfg.Redis.Port),
 		Password: global.Cfg.Redis.Password,
@@ -110,6 +114,8 @@ func bootRedis() error {
 	if err == nil {
 		logrus.Printf("程序载入Redis服务成功")
 	}
+	global.Redis.AddHook(lib.NewRedisHook(global.Logger, 500*time.Millisecond))
+
 	return err
 }
 

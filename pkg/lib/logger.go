@@ -44,6 +44,8 @@ func NewLogger(logPath, module string, debug bool) (*Logger, error) {
 	// 设置日志级别
 	if debug {
 		logger.SetLevel(logrus.DebugLevel)
+	} else {
+		logger.SetLevel(logrus.InfoLevel)
 	}
 	// 设置日志格式
 	//logger.SetFormatter(&logrus.JSONFormatter{})
