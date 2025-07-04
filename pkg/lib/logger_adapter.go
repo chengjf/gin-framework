@@ -4,8 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/gin-contrib/requestid"
-	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm/logger"
 )
@@ -33,14 +31,9 @@ func (l *LogrusLogger) Error(ctx context.Context, msg string, data ...any) {
 
 func (l *LogrusLogger) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
 	sql, rows := fc()
-	var reqID string
-	if ginCtx, ok := ctx.(*gin.Context); ok {
-		reqID = requestid.Get(ginCtx)
-	}
 	fields := logrus.Fields{
 		"duration": time.Since(begin),
 		"rows":     rows,
-		"req_id":   reqID,
 	}
 	if err != nil {
 		fields["error"] = err

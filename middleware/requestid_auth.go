@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -47,7 +46,6 @@ func RequestIdAuth() gin.HandlerFunc {
 			"req_host":     ctx.Request.Host,
 			"req_method":   ctx.Request.Method,
 			"req_clientIp": ctx.ClientIP(),
-			"req_id":       requestid.Get(ctx),
 			"req_uri":      ctx.Request.RequestURI,
 			"res_time":     time.Since(reqStartTime).String(), // 响应时间
 		}
@@ -56,9 +54,9 @@ func RequestIdAuth() gin.HandlerFunc {
 			responseData := writer.body.String()
 			fields["req_header"] = ctx.Request.Header
 			// 记录request日志
-			global.Logger.WithFields(fields).Warn(responseData)
+			global.Logger.WithContext(ctx).WithFields(fields).Warn(responseData)
 		} else {
-			global.Logger.WithFields(fields).Info("")
+			global.Logger.WithContext(ctx).WithFields(fields).Info("")
 		}
 	}
 }

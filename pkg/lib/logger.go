@@ -4,10 +4,26 @@ import (
 	"os"
 	"time"
 
+	"github.com/gin-contrib/requestid"
+	"github.com/gin-gonic/gin"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
 )
+
+type ContextHook struct{}
+
+func (h ContextHook) Levels() []logrus.Level {
+	return logrus.AllLevels
+}
+
+func (h ContextHook) Fire(entry *logrus.Entry) error {
+	if ctx, ok := entry.Context.(*gin.Context); ok {
+		reqId := requestid.Get(ctx)
+		entry.Data["req_id"] = reqId
+	}
+	return nil
+}
 
 type Logger struct {
 	*logrus.Logger
@@ -44,6 +60,7 @@ func NewLogger(logPath, module string, debug bool) (*Logger, error) {
 	if err != nil {
 		return nil, err
 	}
+	logger.AddHook(ContextHook{})
 	logger.AddHook(lfshook.NewHook(
 		lfshook.WriterMap{
 			logrus.DebugLevel: logWriter,
