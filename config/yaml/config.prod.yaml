@@ -10,7 +10,7 @@ jwt:
   tokenIssuer: 'gin-framework'
   secret: '3jQSRZXeXzr09hq0GrZuL9Dgtk2XV9Ax'
 log:
-  debug: true
+  debug: false
   fileName: 'mqenergy-go' # 日志文件名称
   dirPath: 'runtime/logs' # 日志默认存放目录
 mysql:

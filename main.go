@@ -26,8 +26,8 @@ var (
 	// Authors 作者
 	Authors = []*cli.Author{
 		{
-			Name:  "chenxi",
-			Email: "bbxycx.18@163.com",
+			Name:  "chengjianfeng",
+			Email: "921213417@qq.com",
 		},
 	}
 	//	AppPort 程序启动端口
@@ -73,7 +73,7 @@ func Stack() *cli.App {
 			},
 		},
 		Action: func(context *cli.Context) error {
-			fmt.Println(fmt.Sprintf("\u001B[34m%s\u001B[0m", _UI))
+			fmt.Printf("\u001B[34m%s\u001B[0m\n", _UI)
 
 			//	程序启动时需要加载的服务
 			bootstrap.BootService()
