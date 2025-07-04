@@ -1,11 +1,12 @@
 package lib
 
 import (
+	"os"
+	"time"
+
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
-	"os"
-	"time"
 )
 
 type Logger struct {
@@ -25,7 +26,7 @@ func NewLogger(logPath, module string, debug bool) (*Logger, error) {
 	// 设置输出
 	logger.Out = src
 	// 设置日志级别
-	if debug == true {
+	if debug {
 		logger.SetLevel(logrus.DebugLevel)
 	}
 	// 设置日志格式

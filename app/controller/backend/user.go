@@ -2,7 +2,6 @@ package backend
 
 import (
 	"gin-framework/app/controller/base"
-	"gin-framework/global"
 
 	"gin-framework/app/service/backend"
 
@@ -26,8 +25,7 @@ func (c *UserController) Index(ctx *gin.Context) {
 		response.BadRequestException(ctx, err.Error())
 		return
 	}
-	global.Logger.Warn("index ", requestParams)
-	list, err := backend.User.GetIndex(requestParams)
+	list, err := backend.User.GetIndex(requestParams, ctx)
 	if err != nil {
 		response.BadRequestException(ctx, err.Error())
 		return
@@ -42,7 +40,7 @@ func (c *UserController) List(ctx *gin.Context) {
 		response.BadRequestException(ctx, err.Error())
 		return
 	}
-	list, err := backend.User.GetList(requestParams)
+	list, err := backend.User.GetList(requestParams, ctx)
 	if err != nil {
 		response.BadRequestException(ctx, err.Error())
 		return

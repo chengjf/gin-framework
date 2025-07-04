@@ -9,6 +9,7 @@ import (
 
 	"gin-framework/types/user"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -17,14 +18,14 @@ type UserService struct{}
 var User = &UserService{}
 
 // GetIndex 获取列表
-func (s *UserService) GetIndex(requestParams user.IndexRequest) (any, error) {
+func (s *UserService) GetIndex(requestParams user.IndexRequest, c *gin.Context) (any, error) {
 	var userList = make([]user.UserList, 0)
 	multiFields := []paginator.SelectTableField{
 		{Model: models.GinUser{}, Table: models.GinUserTbName, Field: []string{"password", "salt", "_omit"}},
 		{Model: models.GinUserProfile{}, Table: models.GinUserProfileTbName, Field: []string{"phone"}},
 	}
 	pagination, err := paginator.NewBuilder().
-		WithDB(global.DB).
+		WithDB(global.DB.WithContext(c)).
 		WithModel(models.GinUser{}).
 		//WithFields(models.GinUser{}, models.GinUserTbName, []string{"password", "salt", "_omit"}).
 		//WithFields(models.GinUserInfo{}, models.GinUserInfoTbName, []string{"id", "user_id", "role_ids"}).
@@ -38,10 +39,10 @@ func (s *UserService) GetIndex(requestParams user.IndexRequest) (any, error) {
 }
 
 // GetList 获取列表
-func (s *UserService) GetList(requestParams user.IndexRequest) (any, error) {
+func (s *UserService) GetList(requestParams user.IndexRequest, c *gin.Context) (any, error) {
 	var userList = make([]user.GinUser, 0)
 	pagination, err := paginator.NewBuilder().
-		WithDB(global.DB).
+		WithDB(global.DB.WithContext(c)).
 		WithModel(models.GinUser{}).
 		WithPreload("Roles", func(db *gorm.DB) *gorm.DB {
 			return db.Select("id", "name")

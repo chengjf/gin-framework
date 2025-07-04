@@ -3,9 +3,8 @@ package middleware
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"gin-framework/global"
-	"io/ioutil"
+	"io"
 	"strings"
 	"time"
 
@@ -50,7 +49,7 @@ func RequestIdAuth() gin.HandlerFunc {
 			"req_clientIp": ctx.ClientIP(),
 			"req_id":       requestid.Get(ctx),
 			"req_uri":      ctx.Request.RequestURI,
-			"res_time":     fmt.Sprintf("%s", time.Now().Sub(reqStartTime)), // 响应时间
+			"res_time":     time.Since(reqStartTime).String(), // 响应时间
 		}
 
 		if ctx.Writer.Status() != 200 {
@@ -87,7 +86,7 @@ func getRequestParams(ctx *gin.Context) string {
 	}
 	rawData, _ := ctx.GetRawData()
 	//读取后，重新赋值 c.Request.Body ，以供后续的其他操作
-	ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(rawData))
+	ctx.Request.Body = io.NopCloser(bytes.NewBuffer(rawData))
 	var m map[string]string
 	var params []string
 	// 反序列化

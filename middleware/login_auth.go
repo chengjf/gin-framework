@@ -24,7 +24,7 @@ func LoginAuth() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-		token = strings.TrimSpace(strings.TrimLeft(token, "Bearer"))
+		token = strings.TrimSpace(strings.TrimPrefix(token, "Bearer"))
 		if _, err := auth.ParseJwtToken(token, global.Cfg.Jwt.Secret); err != nil {
 			response.UnauthorizedException(ctx, err.Error())
 			ctx.Abort()
