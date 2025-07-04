@@ -62,7 +62,7 @@ func CasbinAuth() gin.HandlerFunc {
 }
 
 // ParamsActMatchFunc 自定义规则函数
-func ParamsActMatchFunc(args ...interface{}) (interface{}, error) {
+func ParamsActMatchFunc(args ...any) (any, error) {
 	rAct := args[0].(string)
 	pAct := args[1].(string)
 	pActArr := strings.Split(pAct, ",")
@@ -70,7 +70,7 @@ func ParamsActMatchFunc(args ...interface{}) (interface{}, error) {
 }
 
 // ParamsMatchFunc 自定义规则函数
-func ParamsMatchFunc(args ...interface{}) (interface{}, error) {
+func ParamsMatchFunc(args ...any) (any, error) {
 	name1 := args[0].(string)
 	name2 := args[1].(string)
 	key1 := strings.Split(name1, "?")[0]

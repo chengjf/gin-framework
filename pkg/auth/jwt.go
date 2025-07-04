@@ -2,17 +2,18 @@ package auth
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 type JwtPayload struct {
-	User interface{} `json:"user"`
+	User any `json:"user"`
 	jwt.StandardClaims
 }
 
 // GenerateJwtToken 生成jwt token
-func GenerateJwtToken(secret string, expire int64, user interface{}, issuer string) (string, error) {
+func GenerateJwtToken(secret string, expire int64, user any, issuer string) (string, error) {
 	data := JwtPayload{
 		User: user,
 		StandardClaims: jwt.StandardClaims{
@@ -33,7 +34,7 @@ func ParseJwtToken(jwtToken string, secret string) (*JwtPayload, error) {
 	if jwtToken == "" {
 		return nil, errors.New("token 为空")
 	}
-	token, err := jwt.ParseWithClaims(jwtToken, &JwtPayload{}, func(t *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(jwtToken, &JwtPayload{}, func(t *jwt.Token) (any, error) {
 		return []byte(secret), nil
 	})
 	if err != nil {

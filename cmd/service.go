@@ -5,7 +5,7 @@ import (
 	"gin-framework/bootstrap"
 	"gin-framework/config"
 	"gin-framework/pkg/util"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/urfave/cli/v2"
@@ -66,7 +66,7 @@ type ` + firstUpperCtlName + `Service struct{}
 var ` + firstUpperCtlName + ` = &` + firstUpperCtlName + `Service{}
 
 // Index 获取列表
-func (s *` + firstUpperCtlName + `Service) Index(requestParams interface{}) (interface{}, error) {
+func (s *` + firstUpperCtlName + `Service) Index(requestParams any) (any, error) {
 	// Todo list 
 
 	return nil, nil
@@ -74,7 +74,7 @@ func (s *` + firstUpperCtlName + `Service) Index(requestParams interface{}) (int
 `
 	path := "app/service/" + moduleName + "/" + serviceName + ".go"
 	if flag := util.IsPathExist(path); !flag {
-		if err := ioutil.WriteFile(path, []byte(content), 0644); err != nil {
+		if err := os.WriteFile(path, []byte(content), 0644); err != nil {
 			fmt.Println(fmt.Sprintf("\x1b[31m%s\x1b[0m", serviceName+".go create failed"))
 			return nil
 		}

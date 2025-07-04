@@ -21,7 +21,7 @@ var Token = TokenController{}
 
 // Create 生成token
 func (c *TokenController) Create(ctx *gin.Context) {
-	token, err := auth.GenerateJwtToken(global.Cfg.Jwt.Secret, global.Cfg.Jwt.TokenExpire, map[string]interface{}{"id": 1}, global.Cfg.Jwt.TokenIssuer)
+	token, err := auth.GenerateJwtToken(global.Cfg.Jwt.Secret, global.Cfg.Jwt.TokenExpire, map[string]any{"id": 1}, global.Cfg.Jwt.TokenIssuer)
 	if err != nil {
 		response.UnauthorizedException(ctx, err.Error())
 		return

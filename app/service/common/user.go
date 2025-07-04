@@ -15,7 +15,7 @@ type UserService struct{}
 var User = UserService{}
 
 // Login 登录操作
-func (s UserService) Login(requestParams user.LoginRequest) (interface{}, error) {
+func (s UserService) Login(requestParams user.LoginRequest) (any, error) {
 	var userInfo user.User
 	if err := global.DB.Table("gin_user").Where("account = ?", requestParams.Account).First(&userInfo).Error; err != nil {
 		return userInfo, errors.New("用上不存在")

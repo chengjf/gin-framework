@@ -103,14 +103,14 @@ func (pb *PageBuilder) WithMultiFields(fields []SelectTableField) *PageBuilder {
 }
 
 // WithModel 查询的model struct
-func (pb *PageBuilder) WithModel(model interface{}) *PageBuilder {
+func (pb *PageBuilder) WithModel(model any) *PageBuilder {
 	pb.Model = model
 	pb.DB = pb.DB.Model(&model)
 	return pb
 }
 
 // WithOrderBy 排序
-func (pb *PageBuilder) WithOrderBy(orderBy interface{}) *PageBuilder {
+func (pb *PageBuilder) WithOrderBy(orderBy any) *PageBuilder {
 	pb.DB = pb.DB.Order(orderBy)
 	return pb
 }

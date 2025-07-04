@@ -81,7 +81,7 @@ func VerifyPassword(hashedPassword, inputPassword string) bool {
 }
 
 // FormatToString 格式化转化成string
-func FormatToString(originStr interface{}) string {
+func FormatToString(originStr any) string {
 	str := ""
 	switch v := originStr.(type) {
 	case float64:

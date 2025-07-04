@@ -16,7 +16,7 @@ type JsonResponse struct {
 }
 
 // ResponseJson 基础返回
-func ResponseJson(ctx *gin.Context, status int, errcode Code, message string, data interface{}) {
+func ResponseJson(ctx *gin.Context, status int, errcode Code, message string, data any) {
 	if message == "" {
 		message = CodeMap[errcode]
 	}

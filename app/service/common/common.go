@@ -44,7 +44,7 @@ func (s *CommonService) AddRoutes(requestParams common.RouteRequest) ([]models.C
 			newPathList = append(newPathList, _routeInfo.NewPath)
 		}
 	}
-	newPathList = lo.Uniq[string](newPathList)
+	newPathList = lo.Uniq(newPathList)
 	_routeList := make([]common.RouteInfo, len(newPathList))
 
 	for i := 0; i < len(newPathList); i++ {
@@ -56,7 +56,7 @@ func (s *CommonService) AddRoutes(requestParams common.RouteRequest) ([]models.C
 		}
 	}
 	for i := 0; i < len(_routeList); i++ {
-		_routeList[i].MethodList = lo.Uniq[string](_routeList[i].MethodList)
+		_routeList[i].MethodList = lo.Uniq(_routeList[i].MethodList)
 		casbinRule = append(casbinRule, models.CasbinRule{
 			Ptype: "p",
 			V0:    strconv.Itoa(requestParams.RoleId),
