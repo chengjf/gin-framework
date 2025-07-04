@@ -13,7 +13,7 @@ type TreeList struct {
 }
 
 // GenerateTree 无限极分类
-func GenerateTree(list interface{}, pid uint64) []TreeList {
+func GenerateTree(list any, pid uint64) []TreeList {
 	var treeList = make([]TreeList, 0)
 	sv := reflect.ValueOf(list)
 	svs := sv.Slice(0, sv.Len())

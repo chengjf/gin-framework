@@ -1,17 +1,18 @@
 package response
 
 import (
+	"net/http"
+
 	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type JsonResponse struct {
-	Status    int         `json:"status"`
-	ErrCode   Code        `json:"errcode"`
-	RequestId string      `json:"requestid"`
-	Message   string      `json:"message"`
-	Data      interface{} `json:"data"`
+	Status    int    `json:"status"`
+	ErrCode   Code   `json:"errcode"`
+	RequestId string `json:"requestid"`
+	Message   string `json:"message"`
+	Data      any    `json:"data"`
 }
 
 // ResponseJson 基础返回
@@ -30,7 +31,7 @@ func ResponseJson(ctx *gin.Context, status int, errcode Code, message string, da
 }
 
 // SuccessJson 成功返回
-func SuccessJson(ctx *gin.Context, message string, data interface{}) {
+func SuccessJson(ctx *gin.Context, message string, data any) {
 	if message == "" {
 		message = Success.Msg()
 	}

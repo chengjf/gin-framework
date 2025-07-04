@@ -33,12 +33,12 @@ func (s *UserService) GetIndex(requestParams user.IndexRequest) (any, error) {
 			LeftTableField:  paginator.JoinTableField{Table: models.GinUserTbName, Field: "id"},
 			RightTableField: paginator.JoinTableField{Table: models.GinUserProfileTbName, Field: "user_id"},
 		}}).
-		Pagination(&userList, requestParams.Page, global.Cfg.Server.DefaultPageSize)
+		Pagination(&userList, requestParams.PageNo, requestParams.PageSize)
 	return pagination, err
 }
 
 // GetList 获取列表
-func (s *UserService) GetList(requestParams user.IndexRequest) (interface{}, error) {
+func (s *UserService) GetList(requestParams user.IndexRequest) (any, error) {
 	var userList = make([]user.GinUser, 0)
 	pagination, err := paginator.NewBuilder().
 		WithDB(global.DB).
@@ -46,6 +46,6 @@ func (s *UserService) GetList(requestParams user.IndexRequest) (interface{}, err
 		WithPreload("Roles", func(db *gorm.DB) *gorm.DB {
 			return db.Select("id", "name")
 		}).
-		Pagination(&userList, requestParams.Page, global.Cfg.Server.DefaultPageSize)
+		Pagination(&userList, requestParams.PageNo, requestParams.PageSize)
 	return pagination, err
 }

@@ -16,7 +16,8 @@ type User struct {
 
 // IndexRequest 获取用户列表请求参数
 type IndexRequest struct {
-	Page int `form:"page" json:"page" binding:"required"`
+	PageNo   int `form:"page_no" json:"page_no"`
+	PageSize int `form:"page_size" json:"page_size"`
 }
 
 // UserList joins获取关联列表

@@ -2,12 +2,15 @@ package base
 
 import (
 	"errors"
+	"fmt"
 	"gin-framework/pkg/response"
 	"net/http"
+	"strings"
 
 	"gin-framework/pkg/validator"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 type Controller struct{}
@@ -35,22 +38,47 @@ func (c *Controller) View(ctx *gin.Context) {
 }
 
 // ValidateReqParams 验证请求参数
-func (c *Controller) ValidateReqParams(ctx *gin.Context, requestParams interface{}) error {
+func (c *Controller) ValidateReqParams(ctx *gin.Context, requestParams any) error {
 	var err error
-	switch ctx.ContentType() {
-	case "application/json":
+
+	if requestParams == nil {
+		return errors.New("参数结构体不能为nil")
+	}
+	// 获取Content-Type并清理可能的附加参数
+	contentType := strings.SplitN(ctx.ContentType(), ";", 2)[0]
+
+	switch contentType {
+	case gin.MIMEJSON:
 		err = ctx.ShouldBindJSON(requestParams)
-	case "application/xml":
+	case gin.MIMEXML, gin.MIMEXML2:
 		err = ctx.ShouldBindXML(requestParams)
-	case "":
-		err = ctx.ShouldBindUri(requestParams)
-		err = ctx.ShouldBindQuery(requestParams)
-	default:
+	case gin.MIMEPOSTForm:
 		err = ctx.ShouldBind(requestParams)
+	case gin.MIMEMultipartPOSTForm:
+		err = ctx.ShouldBindWith(requestParams, binding.FormMultipart)
+	default:
+		if ctx.Request.Method == http.MethodGet || ctx.Request.Method == http.MethodDelete {
+			err = ctx.ShouldBindQuery(requestParams)
+			if uriErr := ctx.ShouldBindUri(requestParams); uriErr != nil && !shouldSkipError(uriErr) {
+				if err == nil {
+					err = uriErr
+				} else {
+					err = fmt.Errorf("%w; URI参数错误: %v", err, uriErr)
+				}
+			}
+		} else {
+			err = ctx.ShouldBind(requestParams)
+		}
 	}
 	if err != nil {
 		translate := validator.Translate(err)
 		return errors.New(translate[0])
 	}
 	return nil
+}
+
+// 处理跳过错误的通用方法
+func shouldSkipError(err error) bool {
+	return err.Error() == "skip" || // 兼容旧版
+		err.Error() == "skip binding" // 某些版本的错误信息
 }

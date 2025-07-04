@@ -134,13 +134,13 @@ func (pb *PageBuilder) WithPreloads(querys []string) *PageBuilder {
 }
 
 // WithPreload 关联查询主动预加载（可传条件）
-func (pb *PageBuilder) WithPreload(query string, args ...interface{}) *PageBuilder {
+func (pb *PageBuilder) WithPreload(query string, args ...any) *PageBuilder {
 	pb.DB.Preload(query, args...)
 	return pb
 }
 
 // WithCondition 查询条件
-func (pb *PageBuilder) WithCondition(query interface{}, args ...interface{}) *PageBuilder {
+func (pb *PageBuilder) WithCondition(query any, args ...any) *PageBuilder {
 	pb.DB.Where(query, args...)
 	return pb
 }
