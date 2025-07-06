@@ -32,3 +32,8 @@ func (c *AuthController) Login(ctx *gin.Context) {
 	}
 	response.SuccessJson(ctx, "", token)
 }
+
+// Login 用户登录
+func (c *AuthController) Logout(ctx *gin.Context) {
+	response.SuccessJson(ctx, "登出成功", "")
+}

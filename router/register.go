@@ -41,6 +41,7 @@ func Register() *gin.Engine {
 	)
 	// 公用组
 	routes.InitCommonGroup(commonGroup)
+	routes.InitUserGroup(commonGroup)
 	// 后台组
 	routes.InitBackendGroup(authGroup)
 	// 赋给全局

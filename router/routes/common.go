@@ -14,7 +14,8 @@ func InitCommonGroup(r *gin.RouterGroup) (router gin.IRoutes) {
 		// ping
 		commonGroup.GET("/ping", common.Common.Ping)
 		// 登录
-		commonGroup.POST("/user/login", backend.Auth.Login)
+		commonGroup.POST("/api/v1/auth/login", backend.Auth.Login)
+		commonGroup.POST("/api/v1/auth/logout", backend.Auth.Logout)
 		// 上传附件
 		commonGroup.POST("/attachment/upload", backend.Attachment.Upload)
 	}

@@ -47,3 +47,17 @@ func (c *UserController) List(ctx *gin.Context) {
 	}
 	response.SuccessJson(ctx, "", list)
 }
+
+func (c *UserController) Create(ctx *gin.Context) {
+	var requestParams user.UserCreateRequest
+	if err := c.ValidateReqParams(ctx, &requestParams); err != nil {
+		response.BadRequestException(ctx, err.Error())
+		return
+	}
+	err := backend.User.Create(requestParams, ctx)
+	if err != nil {
+		response.BadRequestException(ctx, err.Error())
+		return
+	}
+	response.SuccessJson(ctx, "创建成功", "")
+}

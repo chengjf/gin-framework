@@ -16,8 +16,15 @@ type User struct {
 
 // IndexRequest 获取用户列表请求参数
 type IndexRequest struct {
-	PageNo   int `form:"page_no" json:"page_no"`
-	PageSize int `form:"page_size" json:"page_size"`
+	PageNo   int    `form:"page_no" json:"page_no"`
+	PageSize int    `form:"page_size" json:"page_size"`
+	Account  string `form:"account" json:"account"`
+	Status   int    `form:"status" json:"status"`
+}
+
+type UserCreateRequest struct {
+	Account  string `form:"account" json:"account" binding:"required"`
+	Password string `form:"password" json:"password" binding:"required"`
 }
 
 // UserList joins获取关联列表

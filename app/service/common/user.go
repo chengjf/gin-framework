@@ -18,7 +18,7 @@ var User = UserService{}
 func (s UserService) Login(requestParams user.LoginRequest) (any, error) {
 	var userInfo user.User
 	if err := global.DB.Table("gin_user").Where("account = ?", requestParams.Account).First(&userInfo).Error; err != nil {
-		return userInfo, errors.New("用上不存在")
+		return userInfo, errors.New("用户不存在")
 	}
 	// 验证密码
 	if !util.VerifyPassword(userInfo.Password, requestParams.Password) {
